@@ -390,15 +390,50 @@ def prueba(data):
             break
         estado = "Linea {:4} Tipo {:16} Valor {:16} Posicion {:4}".format(str(tok.lineno),str(tok.type) ,str(tok.value), str(tok.lexpos))
         print (estado)
- # instanciamos el analizador lexico
+        
+#Instanciamos el analizador lexico
 analizador = lex.lex()
 
-if __name__ == '__main__':
-      directory = 'test/variables.rb' # Ruta
-      fp = codecs.open(directory, "r", "ANSI")# Se puede cambiar por otro tipo de codificacion
-      cadena = fp.read()
-      fp.close()
-      prueba(cadena)
+# Seleccionar archivo
+def searchFile(d):
+    ficher = []
+    numberFile = ''
+    answer = False
+    cont = 1
+    print ("LISTA DE ARCHIVOS:")
+    for base, dirs, files in os.walk(d):
+        ficher.append(files)
+        
+    for file in files:
+        print (str(cont) + ". " + file)
+        cont = cont + 1
+    while answer == False:
+       numberFile = input('\nArchivo?: ')
+       for file in files:
+           if file == files[int(numberFile)-1]:
+               answer = True
+               break
+    print ("Has escogido \"%s\" \n" %files[int(numberFile)-1])
+    return files[int(numberFile)-1]
+
+#Leer archivo directo
+rp = True
+while rp:
+    directory = 'test/'
+    file = searchFile(directory)
+    test = directory + file
+    fp = codecs.open(test, "r", "ansi")
+    st = str(fp.read())
+    print("Codigo:\r\n{}".format(st))
+    prueba(st)
+    rs = input("Continuar Y/N: <\\")
+    if rs == 'Y' or rs == 'y':
+        rp = True
+    elif rs == 'N' or rs == 'n':
+        rp = False
+    else:
+        rp = False
+    fp.close()
 
 
 
